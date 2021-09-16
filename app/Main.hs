@@ -34,34 +34,11 @@ module Main where
   import Servant.Types.SourceT (source)
   import qualified Data.Aeson.Parser
   import qualified Text.Blaze.Html
+  import DTO.BinarySearchResults
+  import DTO.User
 
   type UserAPI1 = "users" :> Get '[JSON] [User]
               :<|> "binary-search" :> Get '[JSON] BinarySearchResults
-
--- === User DTO  ===
-  data User = User
-    { name :: String
-    , age :: Int
-    , email :: String
-    , registration_date :: Day
-    } deriving (Eq, Show, Generic)
-
-  instance ToJSON User
-
-  users1 :: [User]
-  users1 =
-    [ User "Isaac Newton" 372 "isaac@newton.co.uk" (fromGregorian 1683 3 1)
-    , User "Albert Einstein" 136 "ae@mc2.org" (fromGregorian 1905 12 1)
-    ]
-
- -- === Binary Search DTO === 
-  data BinarySearchResults = BinarySearchResults
-    { index :: Int } deriving (Eq, Show, Generic)
-
-  instance ToJSON BinarySearchResults
-
-  searchResult1 :: BinarySearchResults
-  searchResult1 = BinarySearchResults 0
 
 -- === API Implementation
   server1 :: Server UserAPI1
