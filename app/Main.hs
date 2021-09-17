@@ -38,13 +38,14 @@ module Main where
   import DTO.User
 
   type UserAPI1 = "users" :> Get '[JSON] [User]
-              :<|> "binary-search" :> Get '[JSON] BinarySearchResults
+              :<|> "binary-search" :> Capture "name" String :> Get '[JSON] BinarySearchResults
 
 -- === API Implementation
   server1 :: Server UserAPI1
   server1 = return users1
-        :<|> return searchResult1
-
+        :<|> searchHandler
+    where searchHandler :: [Char] -> Handler BinarySearchResults
+          searchHandler name = return (BinarySearchResults 2)
   userAPI :: Proxy UserAPI1
   userAPI = Proxy
 
